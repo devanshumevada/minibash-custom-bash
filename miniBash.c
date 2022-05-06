@@ -38,8 +38,6 @@ void execute_single_command(char *cmd) {
                 } */
 
         }
-    //waitpid(pid,NULL,0); // parent waits
-   // printf("Inside Single");
 }
 
 void execute_semicolon_commands(char *cmd) {
@@ -61,7 +59,7 @@ void execute_semicolon_commands(char *cmd) {
         }
 
 
-    //printf("Inside Semicolon");
+    
 
 }
 
@@ -77,7 +75,7 @@ void execute_piped_commands(char *cmd) {
                 pipe_token = strtok(NULL, "|");
         }
 
-        int fd[5][2];
+        int fd[10][2];
         int i;
         for(i=0;i<count;i++){
                 char *args[10];
@@ -89,7 +87,7 @@ void execute_piped_commands(char *cmd) {
                         args[counter] = strtok(NULL, " ");
                 }
 
-                //printf("\n%s\n", piped_command[i]);
+              
 
                 if(i!=count-1){
                         if(pipe(fd[i])<0){
@@ -127,7 +125,7 @@ void execute_piped_commands(char *cmd) {
         }
 
 
-    //printf("Inside Pipe");
+   
 
 }
 
@@ -142,7 +140,7 @@ void execute_redirection_commands(char *cmd, int mode) {
 	int fd;
 
 	if (mode == 1) {
-		//printf("Inside write");
+		
 		args[0] = strtok(cmd, ">");
         	while (args[counter] != NULL){
                 	counter++;
@@ -211,7 +209,7 @@ void execute_redirection_commands(char *cmd, int mode) {
 			
 			
 						
-			//printf("\nFile: %d\n",fd);
+			
 			
 
 			if (check_file(fd) == 1) {
@@ -238,7 +236,7 @@ void execute_redirection_commands(char *cmd, int mode) {
 	}
 
 	 
-    //printf("Inside Redirect");
+   
 
 }
 
@@ -274,7 +272,7 @@ void execute_backgorund_commands(char *cmd) {
 	wait(NULL); 
 
 	
-    //printf("Inside Background");
+ 
 
 }
 
@@ -325,16 +323,16 @@ void process_command(char *cmd) {
     } else if (is_redirectin_present == 1) {
         execute_redirection_commands(cmd, 1);
     } else if (is_semicolon_present == 1) {
-        execute_semicolon_commands(cmd); //done
+        execute_semicolon_commands(cmd); 
     } else if (is_redirection_append_present == 1) {
 	    execute_redirection_commands(cmd, 2);
 
     } else {
-        execute_single_command(cmd); //done
+        execute_single_command(cmd); 
     }
 
 
-    //printf("%s",cmd);
+   
 
 }
 
@@ -348,16 +346,14 @@ int main(int argc, char **argv) {
         char *semicolon_token = strtok(command_as_input, ";");
         int number_of_commands = 0;
         while (semicolon_token != NULL) {
-            //printf( " %s", semicolon_token );
+          
             processed_commands[number_of_commands] = semicolon_token;
             number_of_commands++;
             semicolon_token = strtok(NULL, ";");
         }
         int i;
-        //printf("%d", count);
         for (i=0; i<number_of_commands; i++) {
-           // printf("\n%s\n",processed_commands[i]);
-           //execute_single_command(processed_commands[i]);
+           
            process_command(processed_commands[i]);
 
         }
